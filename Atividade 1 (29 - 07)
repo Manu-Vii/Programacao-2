@@ -1,0 +1,103 @@
+//Atividade 1, 2025-07-29
+//Emanuele Vitória de Jesus Lima
+
+//Importa a classe scanner
+import java.util.Scanner;
+
+// Classe que representa um produto
+class Produto {
+
+    //atributos da classe
+    String nome;
+    double preco;
+    int quantidade;
+
+    //calculo do valor total em estoque
+    double valorTotalEmEstoque() {
+        return preco * quantidade;
+    }
+
+    //adicionar
+    void adicionarProdutos(int quantidadeAdicionada) {
+        quantidade += quantidadeAdicionada;
+    }
+    //remover
+    void removerProdutos(int quantidadeRemovida) {
+        quantidade -= quantidadeRemovida;
+    }
+}
+
+//classe principal, onde o programa vai começar de verdade :)
+public class Atividade1 {
+    //metodo do java, publico, estatico ou seja n precisa de objeto pra ser chamado
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        //cria novo objeto da classe produto
+        Produto produto = new Produto();
+
+        // Leitura dos dados do produto
+        System.out.print("Digite o nome do produto: ");
+        //.nextLine() lê uma linha inteira de texto que o usuário digitar no teclado, até apertar enter
+        produto.nome = sc.nextLine();
+
+        System.out.print("Digite o preço do produto: ");
+        produto.preco = sc.nextDouble();
+
+        System.out.print("Digite a quantidade em estoque: ");
+        produto.quantidade = sc.nextInt();
+
+        // Exibe dados iniciais, ou seja os prints
+
+        System.out.println ("\n--- Dados do Produto ---");
+        System.out.println ("Nome: " + produto.nome);
+        System.out.println ("Preço: R$" + produto.preco);
+        System.out.println ("Quantidade: " + produto.quantidade);
+        System.out.println ("Valor total em estoque: R$" + produto.valorTotalEmEstoque());
+
+        // Entrada no estoque
+        System.out.print("\nDigite a quantidade para adicionar ao estoque: ");
+        //essa entrada será a 'quantidade adicionada '
+        int entrada = sc.nextInt();
+
+        //chamada para add
+        produto.adicionarProdutos(entrada);
+
+        // Exibe dados após entrada, os pronts
+        System.out.println("\n----- Dados Atualizados (após entrada, passo 1) -----");
+
+        System.out.println ("Nome: " + produto.nome);
+        System.out.println ("Preço: R$" + produto.preco);
+        System.out.println("Quantidade: " + produto.quantidade);
+        System.out.println("Valor total em estoque: R$" + produto.valorTotalEmEstoque());
+
+        // Saída do estoque com verificação caso n tenha o suficiente no estoque :)
+
+        int saida;
+        // laço infinito que só será interrompido quando o usuário digitar um valor válido para saída
+        while (true) {
+            System.out.print("\nDigite a quantidade para remover do estoque: ");
+            saida = sc.nextInt();
+
+            if (saida > produto.quantidade) {
+                System.out.println("Opa,o seu estoque tem apenas " + produto.quantidade + " unidades.");
+                System.out.println("Tente novamente.");
+            } else {
+                break; // valor válido, pode sair do loop
+            }
+        }
+
+        //chama o remove para subtrair
+        produto.removerProdutos(saida);
+
+        // Exibe dados finais
+        System.out.println("\n----- Dados Finais (após saída, passo 2) -----");
+        System.out.println ("Nome: " + produto.nome);
+        System.out.println ("Preço: R$" + produto.preco);
+        System.out.println("Quantidade: " + produto.quantidade);
+        System.out.println("Valor total em estoque: R$" + produto.valorTotalEmEstoque());
+
+        sc.close();
+    }
+}
+
+
