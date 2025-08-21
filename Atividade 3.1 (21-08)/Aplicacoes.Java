@@ -1,0 +1,53 @@
+//Emanuele Vitória de Jesus Lima
+// 20/08/25
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Scanner;
+
+public class Aplicacoes {
+
+    public static void main(String[] args) {
+        //formataçao data
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Scanner sc = new Scanner(System.in);
+
+        try {
+            System.out.print("Número do quarto: ");
+            int numeroQuarto = sc.nextInt();
+
+            System.out.print("Data de entrada (dd/MM/yyyy): ");
+            Date dataEntrada = sdf.parse(sc.next());
+
+            System.out.print("Data de saída (dd/MM/yyyy): ");
+            Date dataSaida = sdf.parse(sc.next());
+
+            Reserva reserva = new Reserva(numeroQuarto, dataEntrada, dataSaida);
+            System.out.println(reserva.toString());
+
+            System.out.println("\nEntre com os dados para atualizar a reserva:");
+
+            System.out.print("Data de entrada (dd/MM/yyyy): ");
+            Date novaDataEntrada = sdf.parse(sc.next());
+
+            System.out.print("Data de saída (dd/MM/yyyy): ");
+            Date novaDataSaida = sdf.parse(sc.next());
+
+            //vai chamar metodo updateDates() da própria reserva para fazer a atualizacao
+            reserva.updateDates(novaDataEntrada, novaDataSaida);
+            System.out.println(reserva.toString());
+
+        }
+        catch (DominioExcecao e) {
+            System.out.println("Errinho na reserva: " + e.getMessage());
+        }
+        //erro de conversao de data
+        catch (ParseException e) {
+            System.out.println("OOOPSY, Formato de data inválido");
+        }
+        finally {
+            sc.close();
+        }
+    }
+}
