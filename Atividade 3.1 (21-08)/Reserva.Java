@@ -1,0 +1,62 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
+public class Reserva {
+
+    private Integer quartonumero;
+    private Date checkin;
+    private Date checkout;
+
+    public Reserva(Integer roomNumber, Date checkin, Date checkout) {
+        if (!checkout.after(checkin)) {
+            throw new DominioExcecao("Hey. A data de saída deve ser posterior à data de entrada");
+        }
+        Date now = new Date();
+        if (checkin.before(now) || checkout.before(now)) {
+            throw new DominioExcecao("As datas da reserva devem ser futuras, afinal ainda não inventamos a maquina do tempo ;) ");
+        }
+
+        this.quartonumero = quartonumero;
+        this.checkin = checkin;
+        this.checkout = checkout;
+    }
+
+    // método para calcular a duração da reserva em dias.
+    public long duration() {
+        long diff = checkout.getTime() - checkin.getTime();
+        return TimeUnit.DAYS.convert(diff, TimeUnit.MILLISECONDS);
+    }
+
+    // updateDates()  faz a validação e a atualização
+    public void updateDates(Date newCheckin, Date newCheckout) {
+        // valida as novas datas.
+        if (!newCheckout.after(newCheckin)) {
+            throw new DominioExcecao("A data de saída deve ser posterior à data de entrada");
+        }
+        Date now = new Date();
+        if (newCheckin.before(now) || newCheckout.before(now)) {
+            throw new DominioExcecao("As datas de atualização devem ser futuras, não temos como voltar no tempo não é mesmo?");
+        }
+
+        this.checkin = newCheckin;
+        this.checkout = newCheckout;
+    }
+
+    public Integer getRoomNumber() {
+        return quartonumero;
+    }
+    public Date getCheckin() {
+        return checkin;
+    }
+    public Date getCheckout() {
+        return checkout;
+    }
+
+    @Override
+    public String toString() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
+        return "Reserva: Quarto " + quartonumero + ", entrada: " + sdf.format(checkin) +
+                ", saída: " + sdf.format(checkout) + ", " + duration() + " noites";
+    }
+}
